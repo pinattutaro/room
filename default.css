@@ -1,0 +1,133 @@
+:root {
+    --base-width: 300px;
+    --base-height: 300px;
+    --base-thick: 20px;
+    --base-color: white;
+
+    --thick: 10px;
+    --width: 100px;
+    --height: 100px;
+    --color: white;
+    --side-color: rgba(255,255,255,0.8);
+    --vertical: 0px;
+    
+
+    --hole-width: 0px;
+    --hole-height: 0px;
+    --hole-top: 0px;
+    --hole-left: 0px;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(50vh 50vh at center, white, black);
+    display: grid;
+    justify-items: center;
+    align-items: end;
+    overflow: hidden;
+
+    perspective: 10000px;
+
+    & * {
+        position: relative;
+        mix-blend-mode: normal;
+        will-change: transform;
+    }
+
+    &::after {
+        position: absolute;
+        z-index: 999;
+        /* content: ""; */
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0.1;
+        pointer-events: none;
+    }
+}
+
+.room {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    transform: rotateX(60deg) rotateZ(45deg);
+    width: var(--base-width);
+    height: var(--base-height);
+}
+
+.board {
+    width: var(--width);
+    height: var(--height);
+    background-color: var(--color);
+    transform-style: preserve-3d;
+    /* border: solid 1px black; */
+    /* box-sizing: border-box; */
+    overflow: visible;
+    /* transform: translateZ(var(--vertical)); */
+    /* clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hole-left) var(--hole-top), var(--hole-left) calc(var(--hole-top) + var(--hole-height)), calc(var(--hole-left) + var(--hole-width)) calc(var(--hole-top) + var(--hole-height)), calc(var(--hole-left) + var(--hole-width)) var(--hole-top), var(--hole-left) var(--hole-top), 0 0); */
+
+    &.right {
+        transform: rotateX(90deg) rotateY(90deg);
+    }
+
+    &.left {
+        transform: rotateY(-90deg) rotateX(-90deg);
+    }    
+
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background-color: var(--side-color);
+        transform-origin: 0 0;
+        z-index: 100;
+        clip-path: unset;
+    }
+
+    &::before {
+        width: 100%;
+        height: var(--thick);        
+        transform: translateY(var(--height)) rotateX(-90deg);
+        /* background-color: blue; */
+    }
+
+    &:after {
+        width: var(--thick);
+        height: 100%;
+        /* transform: translateX(var(--width)) rotateY(90deg) translateY(calc(var(--thick)*-1)); */
+        transform: translateX(var(--width)) rotateY(90deg);
+        /* background: red; */
+    }
+}
+
+.hollow {
+
+}
+
+.base {
+    --width: var(--base-width);
+    --height: var(--base-height);
+    --thick: var(--base-thick);
+    --color: var(--base-color);
+}
+
+.floor {
+    width: 100%;
+    height: 100%;
+    background-color: var(--base-color);
+
+    & > .wall {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: 0% 0%;
+    }
+}
+
+.object {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(var(--vertical));
+}
