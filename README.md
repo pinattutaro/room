@@ -1,1 +1,4 @@
-# Make a small room
+# Documentation
+
+## Usage
+* board
