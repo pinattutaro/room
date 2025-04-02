@@ -39,7 +39,7 @@ body {
         /* content: ""; */
         width: 100%;
         height: 100%;
-        background-color: black;
+        background: black;
         opacity: 0.1;
         pointer-events: none;
     }
@@ -60,17 +60,27 @@ body {
 
 .board, .base {
     --margin: calc(var(--width) - var(--thick));
+    --vertical: 0px;
     width: var(--thick);
     height: var(--height);
     margin-right: var(--margin);
-    background-color: var(--side-color);
+    background: var(--side-color);
     transform-style: preserve-3d;
-    overflow: visible;
+    /* overflow: visible; */
     transform-origin: 100% 0;
-    transform: translateX(var(--margin)) rotateY(90deg);
+    transform: translateZ(var(--vertical)) translateX(var(--margin)) rotateY(90deg);
     position: absolute;
     left: 0;
     top: 0;
+    /* box-sizing: border-box; */
+    /* border: dotted 1px #ccc; */
+
+    /* & ~ .hollow {
+        --width: var(--hole-width);
+        --height: var(--hole-height);
+        top: var(--hole-top);
+        left: var(--hole-left);
+    } */
 
     &.base {
         transform: translateZ(calc(-1*var(--thick))) translateX(var(--margin)) rotateY(90deg);
@@ -80,30 +90,31 @@ body {
         content: "";
         position: absolute;
         width: var(--width);
-        transform-origin: 100% 0;
+        transform-origin: 0 0;
         box-sizing: border-box;
-        /* border: solid 1px #ccc; */
+        border: dotted 1px rgba(128,128,128,0.1);
     }
 
     &::before {
         height: var(--height);
-        background-color: var(--color);
-        transform: translateX(calc(var(--height)*-1)) rotateY(-90deg);
+        background: var(--color);
+        transform-origin: 100% 0;
+        transform: translate(calc(-1*var(--width))) rotateY(-90deg);
         clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hole-left) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) var(--hole-top), 0 0);
-        border: solid 1px #ccc;
     }
 
     &::after {
         height: var(--thick);
-        background-color: var(--side-color);
-        transform: translateX(calc(var(--height)*-1)) translateY(var(--height)) rotateY(-90deg) rotateX(-90deg);
+        background: var(--side-color);
+        /* transform: translateX(calc(var(--height)*-1)) translateY(var(--height)) rotateY(-90deg) rotateX(-90deg); */
+        transform: rotateX(90deg) rotateZ(-90deg) translateZ(calc(-1*var(--height)));
     }
 }
 
 .hollow {
     width: var(--width);
     height: var(--thick);
-    background-color: var(--side-color);
+    background: var(--side-color);
     transform-style: preserve-3d;
     transform-origin: 0 0;
     transform: translateZ(var(--vertical)) rotateX(-90deg);
@@ -114,17 +125,18 @@ body {
         content: "";
         transform-origin: 100% 0;
         box-sizing: border-box;
-        border: solid 1px #ccc;
+        border: dotted 1px #ccc;
     }
 
     &::before {
-        background-color: var(--color);
+        background: var(--color);
         transform: translateY(var(--thick)) rotateX(90deg);
         width: var(--width);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hole-left) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) var(--hole-top), 0 0);
     }
 
     &::after {
-        background-color: var(--side-color);
+        background: var(--side-color);
         transform: translateY(var(--thick)) translateX(calc(-1*var(--thick))) rotateX(90deg) rotateY(90deg);
         width: var(--thick);
     }
@@ -132,18 +144,21 @@ body {
 
 .object {
     position: absolute;
+    top: 0px;
+    left: 0px;
     transform-style: preserve-3d;
     transform-origin: 0 0;
     width: 10px;
     height: 10px;
     transform: rotateZ(0deg) translateZ(var(--vertical));
     --vertical: 0px;
+    word-wrap: break-word;
 
-    &.right {
+    &.left {
         transform: rotateX(90deg) rotateY(90deg) translateZ(var(--vertical));
     }
 
-    &.left {
+    &.right {
         transform: rotateY(-90deg) rotateX(-90deg) translateZ(var(--vertical));
     }
 }
@@ -151,6 +166,6 @@ body {
 .debug {
     width: 5px;
     height: 5px;
-    background-color: black;
+    background: black;
     position: relative;
 }
