@@ -4,17 +4,325 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>myRoom</title>
-    <link rel="stylesheet" href="../default.css">
+    <link rel="stylesheet" href="default.css">
+    <style>
+        :root {
+            --base: white;
+            --shadow: rgb(197, 191, 191);
+            --mid-shadow: rgb(174, 168, 168);
+            --dark-shadow: rgb(151, 145, 145);
+            --glass: rgba(150,150,150,0.2);
+            --glass-side: rgba(128,128,128,0.8);
+            --water: rgba(96, 146, 198, 0.3);
+            --water-side: rgba(96, 146, 198, 0.8);
+
+            --color: var(--base);
+            --side-color: var(--shadow);
+        }
+
+        .glass {
+            --color: var(--glass);
+            --side-color: var(--glass);
+
+            &::before, &::after {
+                border: none;
+            }
+        }
+
+        .water {
+            --color: var(--water);
+            --side-color: var(--water-side);
+        }
+
+        .shower-tile {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            /* gap: 1px; */
+            place-items: center;
+            
+            & > .board {
+                --tile-length: 18px;
+                --width: var(--tile-length);
+                --height: var(--tile-length);
+                --thick: 2px;
+                --color: #000010;
+                --side-color: #000;
+                position: relative;
+            }
+        }
+
+        .shower {
+            & > .board:not(.water) {
+                background-color: var(--shadow);
+            }
+        }
+
+        .light {
+            --side-color: white;
+            --color: white;
+
+            &, &::before, &::after {
+                box-shadow: 0 0 5px white, 0 0 10px white, 0 0 50px white;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="room">
-        <div class="object" style="--vertical: calc(-1*var(--height)); --side-color: white;">
-            <div class="base" style="background-color: rgb(197, 191, 191);"></div>
-            <div class="object left" style="--color: rgb(197, 191, 191);">
-                <div class="base" style="background-color: white;"></div>
-            </div>
+        <div class="object" style="--vertical: -100px; --side-color: var(--base); width: 300px; height: 300px;">
+            <div class="base" style="background-color: var(--shadow); --color: white; --hole-width: 130px; --hole-height: 130px; --hole-top: 5px; --hole-left: 160px;"></div>
             <div class="object right">
-                <div class="base" style="background-color: white; --side-color: rgb(197, 191, 191);"></div>
+                <div class="base" style="background-color: var(--base); --side-color: var(--shadow); --hole-width: 200px; --hole-height: 90px; --hole-top: 50px;"></div>
+                <div class="hollow" style="--width: 200px; --height: 90px; top: 50px; --thick: 20px; background-color: var(--shadow); --color: #000010;"></div>
+
+                <div class="object" style="left: 100px; top: 125px;">
+                    <div class="board" style="--width: 20px; --height: 10px; --thick: 5px; --color: silver; --side-color: rgb(168, 167, 167); background-color: silver;"></div>
+                    <div class="board" style="--width: 5px; --height: 30px; --thick: 5px; --vertical: 5px; left: 7.5px; top: -20px; background-color: rgb(205, 205, 205); --color: rgb(205, 205, 205); --side-color: silver;"></div>
+                </div>
+            </div>            
+            <div class="object left" style="--color: var(--shadow)">
+                <div class="base" style="background-color: var(--base); --hole-width: 60px; --hole-height: 40px; --hole-left: 205px; --hole-top: 100px;"></div>
+                <div class="board" style="--width: 300px; --height: 10px; --thick: 10px;"></div>
+            </div>
+
+            <div id="toilet" class="object" style="left: 0px; top: 65px;">
+                <div class="object" style="--vertical: 20px;">
+                    <!-- <div class="board" style="--width: 70px; --height: 60px; top: 5px; --thick: 25px; --side-color: var(--base); background-color: var(--mid-shadow);"></div>
+                    <div class="board" style="--width: 80px; --height: 70px; --vertical: 25px; --thick: 15px;"></div> -->
+                    <div class="board" style="--width: 80px; --height: 70px; --thick: 35px; --vertical: 5px; --color: var(--dark-shadow); background-color: var(--shadow);"></div>
+                    <div class="board" style="--width: 10px; --height: 70px; --thick: 10px; --vertical: 40px; background-color: var(--dark-shadow);"></div>
+                    <div class="board" style="--width: 5px; --height: 70px; --thick: 5px; --vertical: 45px; left: 10px; background-color: var(--shadow);"></div>
+                    <div class="board" style="--width: 70px; --height: 70px; --thick: 3px; --vertical: 42px; left: 10px; background-color: var(--shadow);"></div>
+
+                    <div id="sanitary" class="object" style="top: 70px; left: 10px; --vertical: -20px;">
+                        <!-- <div class="board" style="--width: 25px; --height: 20px; --thick: 30px; --color: black; --side-color: silver;"></div> -->
+                         <div class="object left">
+                            <div class="board" style="--width: 20px; --height: 30px; --thick: 25px; --color: rgb(168, 168, 168); --side-color: black; background-color: silver; --hole-width: 10px; --hole-height: 10px; --hole-left: 5px; --hole-top: 5px;"></div>
+                            <div class="hollow" style="--width: 10px; --height: 10px; --thick: 3px; --vertical: 26px; top: 5px; left: 5px; --color: rgb(168, 168, 168); --side-color: rgb(138, 138, 138);"></div>
+                         </div>
+                        <div class="board" style="--width: 25px; --height: 20px; --thick: 3px; --vertical: 31px; --color: silver; --side-color: silver; background-color: rgb(168, 168, 168);"></div>
+                        <div class="board" style="--width: 8px; --height: 10px; --thick: 2px; --vertical: 7px; top: 5px; left: 22px; --color: black; --side-color: black;"></div>
+                    </div>
+
+                    <div id="holder" class="object" style="top: 70px; --vertical: 70px;">
+                        <div class="object left">
+                            <div class="board" style="--width: 20px; --height: 18px; --thick: 18px; --hole-width: 16px; --hole-height: 16px; --hole-left: 2px; --color: var(--shadow);"></div>
+                            <div class="hollow" style="--width: 16px; --height: 16px; --thick: 16px; --vertical: 18px; left: 2px; background-color: transparent; --color: var(--dark-shadow); --side-color: var(--mid-shadow);"></div>
+                            <div class="board" style="--width: 16px; --height: 2px; --thick: 2px; left: 2px; top: 7px; --vertical: 9px; --color: rgb(69, 33, 7); --side-color: rgb(69, 33, 7);"></div>
+                        </div>
+
+                        <div class="object right" style="left: 2px; width: 16px; height: 16px;">
+                            <div class="board" style="--width: 8px; --height: 8px; --thick: 12px; left: 4px; top: 4px; --vertical: 4px; --side-color: var(--base); --color: var(--shadow);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dresser" class="object" style="top: 200px; height: 70px; --table: #232325; --door: #2A2A2C;">
+                <div class="board" style="--width: 40px; --height: 70px; --thick: 70px; --color: var(--table); --side-color: var(--table);"></div>
+                <div class="board light" style="--width: 40px; --height: 60px; --thick: 5px; --vertical: 70px; top: 5px;"></div>
+
+                <div class="object" style="left: 40px;">
+                    <div class="board" style="--width: 5px; --height: 34px; --thick: 70px; --color: var(--door); --side-color: var(--door);"></div>
+                    <div class="board" style="--width: 5px; --height: 34px; --thick: 70px; --color: var(--door); --side-color: var(--door); top: 36px;"></div>   
+                    
+                    <div class="object" style="left: 5px; --vertical: 25px; --width: 5px; --height: 5px; --thick: 20px;">
+                        <div class="board" style="top: 25px; background-color: var(--shadow);"></div>
+                        <div class="board" style="top: 40px; background-color: var(--shadow);"></div>
+                    </div>
+                </div>
+
+                <!-- <div class="board" style="--width: 45px; --height: 70px; --thick: 20px; --color: var(--base); --side-color: var(--base); background-color: var(--shadow); --vertical: 75px; --hole-width: 25px; --hole-height: 50px; --hole-top: 10px; --hole-left: 15px;"></div>
+                <div class="hollow" style="--width: 25px; --height: 50px; top: 10px; left: 15px; --thick: 5px; --vertical: 95px; --side-color: var(--shadow);"></div> -->
+
+                <div class="object" style="--vertical: 75px;">
+                    <div class="board" style="--width: 45px; --height: 70px; --thick: 20px; --color: var(--base); --side-color: var(--base); background-color: var(--shadow); --hole-width: 25px; --hole-height: 50px; --hole-top: 10px; --hole-left: 15px;"></div>
+                    <div class="hollow" style="--width: 25px; --height: 50px; top: 10px; left: 15px; --thick: 5px; --vertical: 20px; --side-color: var(--shadow);"></div>
+
+                    <div class="object" style="left: -40px;">
+                        <div class="board" style="--width: 45px; --height: 70px; --thick: 20px; --color: var(--base); --side-color: var(--base); background-color: var(--shadow); --hole-width: 25px; --hole-height: 50px; --hole-top: 10px; --hole-left: 5px;"></div>
+                        <div class="hollow" style="--width: 25px; --height: 50px; --thick: 5px; top: 10px; left: 5px; --vertical: 20px; --side-color: var(--shadow);"></div>
+
+                        <div class="object" style="--vertical: 20px; left: 30px; top: 32.5px;">
+                            <div class="board" style="--width: 5px; --height: 5px; --thick: 10px;"></div>
+                            <div class="board" style="--width: 10px; --height: 5px; --thick: 5px; left: -5px; --vertical: 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="object" style="--vertical: 95px; top: 0px; left: 0px;">
+                    <div class="object" style="top: 32.5px; left: 10px;">
+                        <div class="board" style="--width: 5px; --height: 5px; --thick: 10px; background-color: var(--shadow); position: absolute;"></div>
+                        <div class="board" style="--width: 10px; --height: 5px; --thick: 5px; --vertical: 10px; background-color: var(--shadow); position: absolute;"></div>
+                    </div>
+
+                    <div class="object left" style="width: 100px; height: 100px;">
+                        <div class="board" style="--width: 70px; --height: 50px; --thick: 5px; --color: var(--shadow); --side-color: var(--base); --hole-width: 60px; --hole-height: 40px; --hole-top: 5px; --hole-left: 5px;"></div>
+                        <!-- <div class="board" style="--width: 60px; --height: 40px; --thick: 5px; --color: rgba(128,128,150,0.2); top: 5px; left: 5px;"></div> -->
+                        <div class="hollow" style="--width: 60px; --height: 40px; top: 5px; left: 5px; --vertical: 5px; --thick: 5px; --color: transparent;"></div>
+                        <div class="board glass" style="--width: 60px; --height: 40px; --thick: 5px; top: 5px; left: 5px;"></div>
+
+                        <div class="object" style="--vertical: -5px; top: 0px; left: 0px;">
+                            <div class="board" style="--width: 70px; --height: 50px; --thick: 5px; --color: var(--shadow); --side-color: var(--base); --hole-width: 60px; --hole-height: 40px; --hole-top: 5px; --hole-left: 5px;"></div>
+                            <div class="hollow" style="--width: 60px; --height: 40px; top: 5px; left: 5px; --vertical: 5px; --thick: 5px; --color: transparent;"></div>
+                            <div class="board glass" style="--width: 60px; --height: 40px; --thick: 5px; top: 5px; left: 5px;"></div>                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="object" style="--vertical: 180px;">
+                    <div class="object left">
+                        <div class="board light" style="--width: 60px; --height: 5px; --thick: 5px; top: -5px; left: 5px;"></div>
+                        <div class="board" style="--width: 70px; --height: 50px; --thick: 30px; --color: var(--shadow); --side-color: var(--base); --hole-width: 60px; --hole-height: 40px; --hole-top: 5px; --hole-left: 5px;"></div>
+                        <div class="hollow" style="--width: 60px; --height: 40px; --thick: 25px; top: 5px; left: 5px; --color: var(--dark-shadow); --side-color: var(--mid-shadow); background-color: var(--mid-shadow); --vertical: 30px;"></div>
+                        <div class="board" style="--width: 5px; --height: 40px; --thick: 25px; --color: var(--shadow); --side-color: var(--dark-shadow); background-color: var(--mid-shadow); top: 5px; left: 32.5px; --vertical: 5px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="shower-room" class="object" style="width: 150px; height: 150px; top: 0px; left: 150px;">
+                <div class="hollow" style="--width: 130px; --height: 130px; top: 5px; left: 10px; --thick: 5px; --vertical: 0px; --side-color: var(--shadow); background-color: var(--base);"></div>
+                <div class="board water" style="--width: 130px; --height: 130px; top: 5px; left: 10px; --thick: 5px; --vertical: -5px;"></div>
+                <div class="board" style="--width: 20px; --height: 20px; --thick: 3px; --vertical: -5px; top: 5px; left: 120px; --color: #c0c0c0; --side-color: #757575;"></div>
+    
+                <div class="object right shower-tile" style="width: 300px; height: 140px; left: 10px; --vertical: 0px;">
+                    <div class="board" style="position: absolute; --width: 300px; --height: 140px; --thick: 5px; --color: var(--base); --side-color: var(--shadow); background-color: var(--base); --vertical: -5px;"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                    <div class="board"></div>
+                </div>
+
+                <div class="object" style="--width: 5px; --height: 5px; --thick: 20px; top: 150px; left: 140px; --vertical: 130px;">
+                    <div class="board" style="top: 5px; background-color: var(--shadow);"></div>
+                    <div class="board" style="top: -10px; background-color: var(--shadow);"></div>
+                </div>
+
+                <div class="object">
+                    <div class="board" style="--height: 150px; --width: 10px; --thick: 10px; background-color: var(--shadow);"></div>  
+                    <div class="board" style="--height: 10px; --width: 80px; --thick: 10px; top: 140px; background-color: var(--shadow);"></div> 
+                    <div class="board" style="--height: 10px; --width: 70px; --thick: 10px; top: 150px; left: 80px; background-color: var(--shadow);"></div>                     
+                </div>
+
+                <div class="object" style="--vertical: 0px; --thick: 250px; width: 150px; height: 140px; left: 0px;">
+                    <div class="board glass" style="--width: 10px; --height: 140px; --side-color: var(--glass-side); background-color: var(--glass); --vertical: 10px; --thick: 240px;"></div>
+                    <div class="board glass" style="--width: 70px; --height: 10px; top: 130px; left: 10px; background-color: var(--glass-side);"></div>
+                    <div class="board glass" style="--width: 70px; --height: 10px; top: 140px; left: 80px; background-color: var(--glass-side);"></div>
+                </div>
+
+                <div class="object" style="--vertical: 250px; top: -5px;">
+                    <div class="board" style="--height: 150px; --width: 10px; --thick: 10px; background-color: var(--shadow);"></div>  
+                    <div class="board" style="--height: 10px; --width: 80px; --thick: 10px; top: 140px; background-color: var(--shadow);"></div> 
+                    <div class="board" style="--height: 10px; --width: 70px; --thick: 10px; top: 150px; left: 80px; background-color: var(--shadow);"></div>         
+                    
+                    <div class="object shower" style="left: 60px; top: 5px;">
+                        <div class="board" style="--width: 50px; --height: 80px; --thick: 10px;"></div>
+                        <div class="board" style="--width: 50px; --height: 20px; --thick: 20px; --vertical: -25px; --color: var(--mid-shadow); background-color: var(--shadow);"></div>
+                        <div class="board water" style="--width: 30px; --height: 30px; --thick: 250px; --vertical: -250px; left: 10px; top: 40px; --side-color: var(--water); background-color: var(--water-side);"></div>
+                    </div>
+                </div>   
             </div>
         </div>
     </div>
