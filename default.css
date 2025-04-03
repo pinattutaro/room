@@ -92,7 +92,7 @@ body {
         width: var(--width);
         transform-origin: 0 0;
         box-sizing: border-box;
-        border: dotted 1px rgba(128,128,128,0.1);
+        /* border: dotted 1px rgba(128,128,128,0.1); */
     }
 
     &::before {
@@ -125,7 +125,7 @@ body {
         content: "";
         transform-origin: 100% 0;
         box-sizing: border-box;
-        border: dotted 1px #ccc;
+        /* border: dotted 1px #ccc; */
     }
 
     &::before {
