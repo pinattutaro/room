@@ -1,6 +1,6 @@
 # Documentation
 
-## Usage
+## Overview
 * This engine consist of three elements given different classes, .object ,.board and .hollow.
     * .object 
         * the structure of 3d object composed of difference classes. more precisely, this creats starting points or diresction for elements including .object itself.
