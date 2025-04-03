@@ -3,7 +3,7 @@
 ## Overview
 * This engine consist of three elements given different classes, .object ,.board and .hollow.
     * .object 
-        * the structure of 3d object composed of difference classes. more precisely, this creats starting points or diresction for elements including .object itself.
+        * the structure of 3d-object composed of difference classes. more precisely, this creats starting points or diresction for elements including .object itself.
 
     * .board
         * the smallest component of 3d object.
@@ -26,16 +26,17 @@
     * top, left (cannot use bottom or right)
 
 ## Variables
-* .board, .hollow
-    * --width
-    * --height
-    * --thick
-    * --color
-    * --side-color
-    * --hole-width
-    * --hole-height
-    * --hole-top
-    * --hole-left
+* creat a work by setting folllowing variables for elements.
+    * .board, .hollow
+        * --width
+        * --height
+        * --thick
+        * --color
+        * --side-color
+        * --hole-width
+        * --hole-height
+        * --hole-top
+        * --hole-left
 
-* common
-    * --vertical
+    * common
+        * --vertical
