@@ -18,7 +18,7 @@
     * margin (.board)
     * clip-path
 
-* unless you don't understand about this engine well, you shouldn't use properties below.
+* unless you understand about this engine well, you shouldn't use properties below.
     * background
     * ::before, ::after
 
