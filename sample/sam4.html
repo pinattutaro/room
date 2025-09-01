@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../room.css">
+    <style>
+        :root {
+            --block: 8px;
+            --grid: calc(var(--block) * 8);
+
+            --width: calc(var(--grid) * 10);
+            --height: calc(var(--grid) * 10);
+
+            --b-base: gray;
+            --b-light: darkgray;
+            --b-dark: dimgray;
+
+            --w-base: gainsboro;
+            --w-light: whitesmoke;
+            --w-dark: lightgray;
+        }
+
+        .board {
+            --right-side: var(--side-color);
+            background-color: var(--right-side) !important;
+        }
+
+        #field {
+            /* width: var(--width);
+            height: var(--height); */
+            display: grid;
+            grid-template-columns: repeat(8, var(--grid));
+            grid-template-rows: repeat(8, var(--grid));
+            padding: var(--grid) var(--grid);
+            --vertical: var(--thick);
+
+            & > .object {
+                position: relative;
+                width: var(--grid);
+                height: var(--grid);
+                /* border: solid calc(var(--grid)*0.01) black; */
+                box-sizing: border-box;
+                display: grid;
+                place-items: center;
+
+                &:nth-child(odd) {background: rgba(0, 0, 0, 0.75);}
+                &:nth-child(even) {background: rgba(255, 255, 255, 0.75);}
+
+                &:nth-child(n+9):nth-child(-n+16),
+                &:nth-child(n+25):nth-child(-n+32),
+                &:nth-child(n+41):nth-child(-n+48),
+                &:nth-child(n+57):nth-child(-n+64) {
+                    &:nth-child(odd) {background: rgba(255, 255, 255, 0.75);}
+                    &:nth-child(even) {background: rgba(0, 0, 0, 0.75);}
+                }
+
+                & > .piece {
+                    width: calc(6*var(--block));
+                    height: calc(6*var(--block));
+                    position: relative;
+
+                    &.black > .board {
+                        --piece: black;
+                        --color: var(--b-light);
+                        --side-color: var(--b-dark);
+                        --right-side: var(--b-base);
+                    }
+
+                    &.white > .board {
+                        --piece: white;
+                        --color: var(--w-light);
+                        --side-color: var(--w-dark);
+                        --right-side: var(--w-base);
+                    }
+
+                    & > .board {
+                        &:nth-child(1) {
+                            --width: calc(6*var(--block));
+                            --height: calc(6*var(--block));
+                            --thick: calc(1*var(--block));
+                        }
+                        &:nth-child(2) {
+                            --width: calc(4*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(1*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(3) {
+                            --width: calc(6*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(1*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(0*var(--block));
+                        }
+                        &:nth-child(4) {
+                            --width: calc(2*var(--block));
+                            --height: calc(6*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(1*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(5) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(6) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }                        
+                    }
+
+                    /* 23 */
+                    &.rook > .board {
+                        &:nth-child(7) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(5*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(5*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(4*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(6*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(0*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(4*var(--block));
+                            --height: calc(6*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(1*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(0*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(13) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(0*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(14) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(5*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(15) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(5*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(16) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(1*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(17) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(4*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(18) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(5*var(--block));
+                            left: calc(1*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(19) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(5*var(--block));
+                            left: calc(4*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(20) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(21) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                        &:nth-child(22) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(23) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                    }
+
+                    /* 23 */
+                    &.knightF > .board {
+                        &:nth-child(7) {
+                            --width: calc(4*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(5*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(4*var(--block));
+                            --height: calc(3*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(4*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(2*var(--block));
+                            --height: calc(3*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(5*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(13) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(14) {
+                            --width: calc(4*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(5*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(15) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(16) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(17) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(7*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(18) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));                            
+                        }
+                        &:nth-child(19) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(20) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(21) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(22) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(23) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(6*var(--block));
+                            --vertical: calc(4*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                    }
+
+                    /* 23 */
+                    &.knightB > .board {
+                        &:nth-child(7) {
+                            --width: calc(4*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(2*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(4*var(--block));
+                            --height: calc(3*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(4*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(2*var(--block));
+                            --height: calc(3*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(5*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(13) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(14) {
+                            --width: calc(4*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(5*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(15) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(3*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(16) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(17) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(7*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(18) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));                            
+                        }
+                        &:nth-child(19) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(9*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(20) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(21) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(22) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(23) {
+                            --width: calc(2*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(6*var(--block));
+                            --vertical: calc(4*var(--block));
+                            top: calc(5*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                    }
+
+                    /* 12 */
+                    &.bishopF > .board {
+                        &:nth-child(7) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(5*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(3*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                    }
+
+                    /* 12 */
+                    &.bishopB > .board {
+                        &:nth-child(7) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(5*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(3*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(1*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(8*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                    }
+
+                    /* 18 */
+                    &.queen > .board {
+                        &:nth-child(7) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));                            
+                        }
+                        &:nth-child(9) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(5*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(6*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(13*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(0*var(--block));
+                        }
+                        &:nth-child(13) {
+                            --width: calc(2*var(--block));
+                            --height: calc(6*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(13*var(--block));
+                            top: calc(0*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(14) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(15) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                        &:nth-child(16) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(17) {
+                            --width: calc(1*var(--block));
+                            --height: calc(1*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(12*var(--block));
+                            top: calc(4*var(--block));
+                            left: calc(4*var(--block));
+                        }
+                        &:nth-child(18) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(14*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                    }
+
+                    /* 13 */
+                    &.king > .board {
+                        &:nth-child(7) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));                            
+                        }
+                        &:nth-child(9) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(10*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(4*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(10*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(11) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(12) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(1*var(--block));
+                            --vertical: calc(11*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                            --color: if(style(--piece: black): var(--w-light); else: var(--b-light));
+                            --side-color: if(style(--piece: black): var(--w-dark); else: var(--b-dark));
+                            --right-side: if(style(--piece: black): var(--w-base); else: var(--b-base));
+                        }
+                        &:nth-child(13) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(13*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                    }
+
+                    /* 10 */
+                    &.pawn > .board {
+                        &:nth-child(7) {
+                            --width: calc(2*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(3*var(--block));
+                            --vertical: calc(3*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(8) {
+                            --width: calc(4*var(--block));
+                            --height: calc(2*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(2*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                        &:nth-child(9) {
+                            --width: calc(2*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(4*var(--block));
+                            --vertical: calc(6*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(2*var(--block));
+                        }
+                        &:nth-child(10) {
+                            --width: calc(4*var(--block));
+                            --height: calc(4*var(--block));
+                            --thick: calc(2*var(--block));
+                            --vertical: calc(7*var(--block));
+                            top: calc(1*var(--block));
+                            left: calc(1*var(--block));
+                        }
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="room">
+        <div class="object">
+            <div class="board"></div>
+            <div id="field" class="object">
+                <div class="object">
+                    <div class="object piece rook black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece knightF black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece bishopF black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece queen black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece king black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board accent"></div>
+                        <div class="board accent"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece bishopF black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece knightF black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece rook black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn black">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece pawn white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+
+                <div class="object">
+                    <div class="object piece rook white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece knightB white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece bishopB white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece queen white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece king white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece bishopB white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>                
+                <div class="object">
+                    <div class="object piece knightB white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+                <div class="object">
+                    <div class="object piece rook white">
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                        <div class="board"></div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</body>
+</html>
