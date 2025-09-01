@@ -28,13 +28,15 @@
         }
 
         #field {
-            /* width: var(--width);
-            height: var(--height); */
+            width: calc(8*var(--grid));
+            height: calc(8*var(--grid));
+            border: solid 1px #000;
             display: grid;
             grid-template-columns: repeat(8, var(--grid));
             grid-template-rows: repeat(8, var(--grid));
-            padding: var(--grid) var(--grid);
+            margin: var(--grid) var(--grid);
             --vertical: var(--thick);
+            box-sizing: border-box;
 
             & > .object {
                 position: relative;
@@ -44,16 +46,25 @@
                 box-sizing: border-box;
                 display: grid;
                 place-items: center;
+                --r: 255;
+                --g: 255;
+                --b: 255;
+                background: rgba(var(--r), var(--g), var(--b), 0.75);
 
-                &:nth-child(odd) {background: rgba(0, 0, 0, 0.75);}
-                &:nth-child(even) {background: rgba(255, 255, 255, 0.75);}
+                &:nth-child(odd) {--r: 0; --g: 0; --b: 0;}
+                &:nth-child(even) {--r: 255; --g: 255; --b: 255;}
 
                 &:nth-child(n+9):nth-child(-n+16),
                 &:nth-child(n+25):nth-child(-n+32),
                 &:nth-child(n+41):nth-child(-n+48),
                 &:nth-child(n+57):nth-child(-n+64) {
-                    &:nth-child(odd) {background: rgba(255, 255, 255, 0.75);}
-                    &:nth-child(even) {background: rgba(0, 0, 0, 0.75);}
+                    &:nth-child(odd) {--r: 255; --g: 255; --b: 255;}
+                    &:nth-child(even) {--r: 0; --g: 0; --b: 0;}
+                }
+
+                &:hover {
+
+                    box-shadow: 0 0 5px rgb(var(--r), var(--g), var(--b)), 0 0 25px rgb(var(--r), var(--g), var(--b)), 0 0 50px rgb(var(--r), var(--g), var(--b)), 0 0 100px rgb(var(--r), var(--g), var(--b));
                 }
 
                 & > .piece {
