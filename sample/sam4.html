@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../room.css">
     <style>
         :root {
-            --block: 10px;
+            --block: 9px;
             --grid: calc(var(--block) * 8);
 
             --width: calc(var(--grid) * 10);
@@ -20,6 +20,14 @@
             --w-base: gainsboro;
             --w-light: whitesmoke;
             --w-dark: lightgray;
+        }
+
+        body {
+            background: black !important;
+        }
+        
+        .room {
+            transform: rotateX(45deg) rotateZ(30deg)
         }
 
         .board {
@@ -62,9 +70,12 @@
                     &:nth-child(even) {--r: 0; --g: 0; --b: 0;}
                 }
 
-                &:hover {
-
+                &:has(.piece):hover {
                     box-shadow: 0 0 5px rgb(var(--r), var(--g), var(--b)), 0 0 25px rgb(var(--r), var(--g), var(--b)), 0 0 50px rgb(var(--r), var(--g), var(--b)), 0 0 100px rgb(var(--r), var(--g), var(--b));
+
+                    & > .piece {
+                        --vertical: calc(2*var(--block));
+                    }
                 }
 
                 & > .piece {
