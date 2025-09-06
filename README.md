@@ -1,4 +1,4 @@
-# 3D Room CSS (`default.css`)
+# 3D Room CSS (`room.css`)
 
 A pure CSS library that uses CSS variables and transforms to create 3D rooms and objects. This allows you to build complex 3D scenes using only HTML and CSS.
 
@@ -14,7 +14,7 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
 
 1.  **Include the CSS file:**
     ```html
-    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="room.css">
     ```
 
 2.  **Create the HTML structure:**
