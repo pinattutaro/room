@@ -1,6 +1,6 @@
 # 3D Room CSS (`room.css`)
 
-A pure CSS library that uses CSS variables and transforms to create 3D rooms and objects. This allows you to build complex 3D scenes using only HTML and CSS.
+A pure CSS library that uses CSS variables and transforms to create 3D rooms and models. This allows you to build complex 3D scenes using only HTML and CSS.
 
 ## Features
 
@@ -14,7 +14,7 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
 
 1.  **Include the CSS file:**
     ```html
-    <link rel="stylesheet" href="room.css">
+    <link rel="stylesheet" href="pinattutaro.github.io/room/room.css">
     ```
 
 2.  **Create the HTML structure:**
@@ -146,7 +146,7 @@ This example creates a simple cube in the center of the room.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Cube Example</title>
-    <link rel="stylesheet" href="room.css">
+    <link rel="stylesheet" href="pinattutaro.github.io/room/room.css">
     <style>
         /* Optional: Center the room and add a background */
         body {
