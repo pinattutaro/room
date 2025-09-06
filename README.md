@@ -146,7 +146,7 @@ This example creates a simple cube in the center of the room.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Cube Example</title>
-    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="room.css">
     <style>
         /* Optional: Center the room and add a background */
         body {
