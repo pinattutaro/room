@@ -55,6 +55,25 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
       }
       ```
 
+### Positioning with .left and .right
+
+To easily orient objects to the sides of the room, you can use the `.left` and `.right` helper classes on an `.object` container. These classes apply a `transform` to rotate the object and its contents to face the left or right wall of the 3D scene.
+
+- **`.left`**: Orients the object to face the left side.
+- **`.right`**: Orients the object to face the right side.
+
+This is useful for placing items like windows or decorations on walls. Any properties of the child elements, such as holes created with `--hole-*` variables, will be correctly oriented along with the parent object.
+
+**Example:**
+```html
+<div class="room">
+    <!-- This object will be on the left wall -->
+    <div class="object left">
+        <div class="board" style="--hole-width: 50px; --hole-height: 50px;"></div>
+    </div>
+</div>
+```
+
 4.  **Customize with CSS variables:**
     Override default variables or define your own to control the scene. Main variables for shaping objects are:
     - `--width`: Width of the element.
