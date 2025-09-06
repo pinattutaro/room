@@ -78,7 +78,13 @@ To create a hole on the surface of a `.board` or `.base` element, use the follow
 The following code shows how to create a hole in a `.base` element that forms part of the floor in `sample/sam1.html`:
 
 ```html
-<div class="base" style="background-color: var(--shadow); --color: white; --hole-width: 130px; --hole-height: 130px; --hole-top: 5px; --hole-left: 160px;"></div>
+<div class="base" style="
+    background-color: var(--shadow); 
+    --color: white; 
+    --hole-width: 130px; 
+    --hole-height: 130px; 
+    --hole-top: 5px; 
+    --hole-left: 160px;"></div>
 ```
 
 In this example, `--hole-width` and `--hole-height` set the hole size to `130px` square, and `--hole-top` and `--hole-left` position the hole at `(160px, 5px)` from the top-left of the parent. This can be used, for example, to represent a shower drain.
@@ -90,9 +96,21 @@ The `--hole-*` variables only create a hole on the surface. To add thickness (in
 ```html
 <div class="object left">
     <!-- Define the outer shape and hole -->
-    <div class="board" style="--width: 20px; --height: 18px; --thick: 18px; --hole-width: 16px; --hole-height: 16px; --hole-left: 2px; ..."></div>
+    <div class="board" style="
+        --width: 20px; 
+        --height: 18px; 
+        --thick: 18px; 
+        --hole-width: 16px; 
+        --hole-height: 16px; 
+        --hole-left: 2px; ..."></div>
+
     <!-- Create the inner wall of the hole -->
-    <div class="hollow" style="--width: 16px; --height: 16px; --thick: 16px; --vertical: 18px; left: 2px; ..."></div>
+    <div class="hollow" style="
+        --width: 16px; 
+        --height: 16px; 
+        --thick: 16px; 
+        --vertical: 18px; 
+        left: 2px; ..."></div>
 </div>
 ```
 
@@ -128,8 +146,7 @@ This example creates a simple cube in the center of the room.
                 --height: 100px; 
                 --thick: 100px; 
                 --color: #3498db; 
-                --side-color: #2980b9;
-            "></div>
+                --side-color: #2980b9;"></div>
         </div>
     </div>
 </body>
