@@ -1,0 +1,178 @@
+:root {
+    --thick: 20px;
+    --width: 300px;
+    --height: 300px;
+    --color: white;
+    --side-color: gray;
+    --vertical: 0px;
+
+    --hole-width: 0px;
+    --hole-height: 0px;
+    --hole-top: 0px;
+    --hole-left: 0px;
+
+    --unit: 1;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(50vh 50vh at center, white, black);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+
+    perspective: 1000px;
+
+    & * {
+        position: relative;
+        mix-blend-mode: normal;
+        will-change: transform;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    &::after {
+        position: absolute;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.1;
+        pointer-events: none;
+    }
+}
+
+.room {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    transform: rotateX(60deg) rotateZ(45deg);
+    width: var(--base-width); 
+    height: var(--base-height);
+
+    & > .object:first-child {
+        top: calc(var(--h)/-2);
+
+        left: calc((var(--w)/-2));
+    }
+}
+
+* {
+    --w: calc(var(--width)*var(--unit));
+
+    --h: calc(var(--height)*var(--unit));
+
+    --t: calc(var(--thick)*var(--unit));
+
+    --v: calc(var(--vertical)*var(--unit));
+
+    --hw: calc(var(--hole-width)*var(--unit));
+
+    --hh: calc(var(--hole-height)*var(--unit));
+
+    --ht: calc(var(--hole-top)*var(--unit));
+
+    --hl: calc(var(--hole-left)*var(--unit));
+}
+
+.board, .base {
+    --margin: calc(var(--w) - var(--t));
+    --vertical: 0px;
+    width: var(--t);
+    height: var(--h);
+    margin-right: var(--margin);
+    background: var(--side-color);
+    transform-style: preserve-3d;
+    transform-origin: 100% 0;
+    transform: translateZ(var(--v)) translateX(var(--margin)) rotateY(90deg);
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    &.base {
+        transform: translateZ(calc(-1*var(--t))) translateX(var(--margin)) rotateY(90deg);
+    }
+
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        width: var(--w);
+        transform-origin: 0 0;
+        box-sizing: border-box;
+    }
+
+    &::before {
+        height: var(--h);
+        background: var(--color);
+        transform-origin: 100% 0;
+        transform: translate(calc(-1*var(--w))) rotateY(-90deg);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hl) var(--ht), calc(var(--hl) + var(--hw)) var(--ht), calc(var(--hl) + var(--hw)) calc(var(--ht) + var(--hh)), var(--hl) calc(var(--ht) + var(--hh)), var(--hl) var(--ht), 0 0);
+    }
+
+    &::after {
+        height: var(--t);
+        background: var(--side-color);
+        /* transform: translateX(calc(var(--h)*-1)) translateY(var(--h)) rotateY(-90deg) rotateX(-90deg); */
+        transform: rotateX(90deg) rotateZ(-90deg) translateZ(calc(-1*var(--h)));
+    }
+}
+
+.hollow {
+    width: var(--w);
+    height: var(--t);
+    background: var(--side-color);
+    transform-style: preserve-3d;
+    transform-origin: 0 0;
+    transform: translateZ(var(--v)) rotateX(-90deg);
+
+    &::before, &::after {
+        position: absolute;
+        height: var(--h);
+        content: "";
+        transform-origin: 100% 0;
+        box-sizing: border-box;
+        /* border: dotted 1px #ccc; */
+    }
+
+    &::before {
+        background: var(--color);
+        transform: translateY(var(--t)) rotateX(90deg);
+        width: var(--w);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hl) var(--ht), calc(var(--hl) + var(--hw)) var(--ht), calc(var(--hl) + var(--hw)) calc(var(--ht) + var(--hh)), var(--hl) calc(var(--ht) + var(--hh)), var(--hl) var(--ht), 0 0);
+    }
+
+    &::after {
+        background: var(--side-color);
+        transform: translateY(var(--t)) translateX(calc(-1*var(--t))) rotateX(90deg) rotateY(90deg);
+        width: var(--t);
+    }
+}
+
+.object {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transform-style: preserve-3d;
+    transform-origin: 0 0;
+    width: 10px;
+    height: 10px;
+    transform: rotateZ(0deg) translateZ(var(--v));
+    --vertical: 0px;
+    word-wrap: break-word;
+
+    &.left {
+        transform: rotateX(90deg) rotateY(90deg) translateZ(var(--v));
+    }
+
+    &.right {
+        transform: rotateY(-90deg) rotateX(-90deg) translateZ(var(--v));
+    }
+}
+
+.debug {
+    width: 5px;
+    height: 5px;
+    background: black;
+    position: relative;
+}
