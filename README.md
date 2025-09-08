@@ -1,5 +1,10 @@
 # 3D Room CSS (`room-2.0.0.css`)
 
+> [!NOTE]
+> Currently, `room-3.0.0.css` is in production.
+
+
+
 A pure CSS library that uses CSS variables and transforms to create 3D rooms and models. This allows you to build complex 3D scenes using only HTML and CSS.
 
 ## Features
@@ -11,6 +16,11 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
 - **Flexible:** Objects can be nested and positioned within 3D space.
 
 ## Usage
+
+> [!IMPORTANT]
+> It is recommended to use the latest version of Google Chrome for the best experience.
+
+
 
 1.  **Include the CSS file:**
     ```html
