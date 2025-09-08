@@ -1,14 +1,12 @@
 # 3D Room CSS (`room-2.0.0.css`)
 
+A pure CSS library that uses CSS variables and transforms to create 3D rooms and models. This allows you to build complex 3D scenes using only HTML and CSS.
+
 > [!NOTE]
 > Currently, `room-3.0.0.css` is in production. The following features are planned for the next release:
 > - Nesting of `.board` elements will be possible again.
 > - `width` and `height` properties will be available as alternatives to `--width` and `--height`.
 > - The `.hollow` class may be deprecated, with backfaces of `.board` and `.hollow` being rendered instead.
-
-
-
-A pure CSS library that uses CSS variables and transforms to create 3D rooms and models. This allows you to build complex 3D scenes using only HTML and CSS.
 
 ## Features
 
@@ -22,8 +20,6 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
 
 > [!IMPORTANT]
 > It is recommended to use the latest version of Google Chrome for the best experience.
-
-
 
 1.  **Include the CSS file:**
     ```html
