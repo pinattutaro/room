@@ -1,7 +1,10 @@
 # 3D Room CSS (`room-2.0.0.css`)
 
 > [!NOTE]
-> Currently, `room-3.0.0.css` is in production.
+> Currently, `room-3.0.0.css` is in production. The following features are planned for the next release:
+> - Nesting of `.board` elements will be possible again.
+> - `width` and `height` properties will be available as alternatives to `--width` and `--height`.
+> - The `.hollow` class may be deprecated, with backfaces of `.board` and `.hollow` being rendered instead.
 
 
 
