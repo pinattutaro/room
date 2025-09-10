@@ -6,7 +6,7 @@ A pure CSS library that uses CSS variables and transforms to create 3D rooms and
 > Currently, `room-3.0.0.css` is in production. The following features are planned for the next release:
 > - Nesting of `.board` elements will be possible again.
 > - `width` and `height` properties will be available as alternatives to `--width` and `--height`.
-> - The `.hollow` class may be deprecated, with backfaces of `.board` and `.hollow` being rendered instead.
+> - ~~The `.hollow` class may be deprecated, with backfaces of `.board` and `.hollow` being rendered instead.~~
 
 ## Features
 
