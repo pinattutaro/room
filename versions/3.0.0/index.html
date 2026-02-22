@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @property --author {
+            syntax: '<string>';
+            inherits: false;
+            initial-value: 'none';
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            background-color: whitesmoke;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+
+            perspective: 1000px;
+        }
+
+        .room {
+            transform-style: preserve-3d;
+            transform-origin: 50% 50%;
+            /* transform: rotateX(60deg) rotateZ(45deg); */
+            transform: rotateX(45deg) rotateZ(30deg);
+            /* width: 500px;
+            height: 500px; */
+        }
+
+        .board {
+            width: 100px;
+            height: 100px;
+            --thick: 200px;
+            --vertival: 0px;
+            border: solid 0px #000;
+            box-sizing: border-box;
+            position: relative;
+            top: 0px;
+            left: 0px;
+            background-color: silver;
+            anchor-name: --author;
+
+            --y-diff: calc(var(--thick) + var(--vertival));
+            transform: translateZ(var(--y-diff));
+
+            &::scroll-button(*) {
+                width: inherit;
+                height: inherit;
+                background: red;
+                content: "";
+                position-anchor: --author;
+                position: absolute;
+                top: anchor(top);
+                left: anchor(left);
+                margin: 0px;
+                padding: 0px;
+                border-width: 0px;
+                transform-origin: 0% 0%;
+                /* transform: unset !important; */
+            }
+
+            &::scroll-button(down) {
+                content: unset;
+                display: none;
+                opacity: 0;
+            }
+
+            &::scroll-button(left) {
+                height: var(--thick);
+                top: anchor(bottom);
+                background: blue;
+                transform: translateZ(var(--y-diff)) rotateX(-90deg);
+            }
+
+            &::scroll-button(right) {
+                width: var(--thick);
+                left: anchor(right);
+                background: red;
+                transform: translateZ(var(--y-diff)) rotateY(90deg);
+            }
+
+            &::scroll-button(up) {
+                background: green;
+                transform: translateZ(var(--y-diff));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="room">
+        <div class="board"></div>
+        <div class="board" style="
+            width: 50px;
+            height: 50px;
+            --thick: 50px;
+            --vertical: 0px;
+        "></div>
+    </div>
+</body>
+</html>
