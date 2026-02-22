@@ -176,5 +176,6 @@ This example creates a simple cube in the center of the room.
 ```
 
 ## Advanced Example
-
-For more complex scenes demonstrating nesting, custom colors, and hole creation, see the `sample/sam1.html` file, which renders a detailed bathroom scene.
+<!-- For more complex scenes demonstrating nesting, custom colors, and hole creation, see the `sample/sam1.html` file, which renders a detailed bathroom scene. -->
+-- [sample/sam1.html](https://pinattutaro.github.io/room/sample/sam1.html)
+-- [sample/sam4.html](https://pinattutaro.github.io/room/sample/sam4.html)

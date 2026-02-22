@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../room.css">
+    <style>
+        :root {
+            --unit: 10px;
+        }
+
+        .main {
+            & > .scroll {
+                --width: 10;
+                --height: 10;
+                display: grid;
+                grid-template-rows: repeat(10, 1fr);
+                top: 0px;
+                /* background-color: white; */
+
+                & > .object {
+                    --width: auto;
+                    --height: auto;
+                    position: relative;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="room">
+        <div class="object main">
+            <div class="object scroll">
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object">
+                    <div class="board" style="
+                        --width: 1;
+                        --height: 1;
+                        --thick: 1;
+                        --vertical: 0;
+                    "></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="object left" style="
+            --width: 10;
+            --height: 10;
+            --vertical: 0;
+        ">
+            <div class="object" style="
+                --width: 10;
+                --height: 10;
+                --vertical: 10;
+                /* box-shadow: 0 0 0 1000vw; */
+            "></div>
+        </div>
+
+        <div class="object right" style="
+            --width: 10;
+            --height: 10;
+            --vertical: 0;
+        ">
+            <div class="board" style="
+                --width: 10;
+                --height: 10;
+                --thick: 10;
+                --vertical: 10;
+                /* box-shadow: 0 0 0 1000vw inset; */
+            "></div>
+        </div>
+    </div>
+</body>
+</html>

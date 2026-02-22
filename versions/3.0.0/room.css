@@ -1,0 +1,171 @@
+:root {
+    --thick: 20px;
+    --width: 300px;
+    --height: 300px;
+    --color: white;
+    --side-color: gray;
+    --vertical: 0px;
+
+    --hole-width: 0px;
+    --hole-height: 0px;
+    --hole-top: 0px;
+    --hole-left: 0px;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(50vh 50vh at center, white, black);
+    display: grid;
+    /* justify-items: center;
+    align-items: end; */
+    place-items: center;
+    overflow: hidden;
+
+    perspective: 1000px;
+
+    & * {
+        position: relative;
+        mix-blend-mode: normal;
+        will-change: transform;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    &::after {
+        position: absolute;
+        z-index: 999;
+        /* content: ""; */
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.1;
+        pointer-events: none;
+    }
+}
+
+.room {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    transform: rotateX(60deg) rotateZ(45deg);
+    width: var(--base-width); 
+    height: var(--base-height);
+
+    & > .object:first-child {
+        top: calc(var(--height)/-2);
+        left: calc((var(--width)/-2));
+    }
+}
+
+.board, .base {
+    --margin: calc(var(--width) - var(--thick));
+    --vertical: 0px;
+    width: var(--thick);
+    height: var(--height);
+    margin-right: var(--margin);
+    background: var(--side-color);
+    transform-style: preserve-3d;
+    /* overflow: visible; */
+    transform-origin: 100% 0;
+    transform: translateZ(var(--vertical)) translateX(var(--margin)) rotateY(90deg);
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* box-sizing: border-box; */
+    /* border: dotted 1px #ccc; */
+
+    /* & ~ .hollow {
+        --width: var(--hole-width);
+        --height: var(--hole-height);
+        top: var(--hole-top);
+        left: var(--hole-left);
+    } */
+
+    &.base {
+        transform: translateZ(calc(-1*var(--thick))) translateX(var(--margin)) rotateY(90deg);
+    }
+
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        width: var(--width);
+        transform-origin: 0 0;
+        box-sizing: border-box;
+        /* border: dotted 1px rgba(128,128,128,0.1); */
+    }
+
+    &::before {
+        height: var(--height);
+        background: var(--color);
+        transform-origin: 100% 0;
+        transform: translate(calc(-1*var(--width))) rotateY(-90deg);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hole-left) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) var(--hole-top), 0 0);
+    }
+
+    &::after {
+        height: var(--thick);
+        background: var(--side-color);
+        /* transform: translateX(calc(var(--height)*-1)) translateY(var(--height)) rotateY(-90deg) rotateX(-90deg); */
+        transform: rotateX(90deg) rotateZ(-90deg) translateZ(calc(-1*var(--height)));
+    }
+}
+
+.hollow {
+    width: var(--width);
+    height: var(--thick);
+    background: var(--side-color);
+    transform-style: preserve-3d;
+    transform-origin: 0 0;
+    transform: translateZ(var(--vertical)) rotateX(-90deg);
+
+    &::before, &::after {
+        position: absolute;
+        height: var(--height);
+        content: "";
+        transform-origin: 100% 0;
+        box-sizing: border-box;
+        /* border: dotted 1px #ccc; */
+    }
+
+    &::before {
+        background: var(--color);
+        transform: translateY(var(--thick)) rotateX(90deg);
+        width: var(--width);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0, var(--hole-left) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) var(--hole-top), calc(var(--hole-left) + var(--hole-width)) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) calc(var(--hole-top) + var(--hole-height)), var(--hole-left) var(--hole-top), 0 0);
+    }
+
+    &::after {
+        background: var(--side-color);
+        transform: translateY(var(--thick)) translateX(calc(-1*var(--thick))) rotateX(90deg) rotateY(90deg);
+        width: var(--thick);
+    }
+}
+
+.object {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transform-style: preserve-3d;
+    transform-origin: 0 0;
+    width: 10px;
+    height: 10px;
+    transform: rotateZ(0deg) translateZ(var(--vertical));
+    --vertical: 0px;
+    word-wrap: break-word;
+
+    &.left {
+        transform: rotateX(90deg) rotateY(90deg) translateZ(var(--vertical));
+    }
+
+    &.right {
+        transform: rotateY(-90deg) rotateX(-90deg) translateZ(var(--vertical));
+    }
+}
+
+.debug {
+    width: 5px;
+    height: 5px;
+    background: black;
+    position: relative;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>train</title>
+    <link rel="stylesheet" href="../room.css">
+    <style>
+        :root {
+            --base: gray;
+            --shadow: rgb(91, 91, 91);
+            --water: rgba(96, 146, 198, 0.3);
+            --water-side: rgba(96, 146, 198, 0.8);
+        }
+
+        .water {
+            --color: var(--water);
+            --side-color: var(--water-side);
+        }
+
+        #rail-way {
+            width: 140px;
+            height: 300px;
+            left: 80px;
+            display: grid;
+            grid-template-rows: repeat(10, 1fr);
+            place-items: center;
+            /* padding: 0 30px; */
+
+            & > .tile {
+                position: relative;
+                --width: 80px;
+                --height: 15px;
+                --thick: 5px;
+                --color: rgb(96, 35, 2);
+                --side-color: rgb(71, 25, 1);
+            }
+
+            & .rail {
+                --color: rgb(79, 79, 79);
+                --side-color: rgb(56, 56, 56);
+                --width: 5px;
+                --thick: 5px;
+                --height: 300px;
+            }
+        }
+
+        #train {
+            width: 120px;
+            height: 300px;
+            left: 90px;
+            --vertical: 10px;
+        }
+
+        .rough {
+            --color: rgba(255,255,255,0.2);
+            --side-color: rgba(255,255,255,0.4);
+
+            &, &::before, &::after {
+                border: dotted 1px rgba(0,0,0,0.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="room" style="transform: rotateX(80deg) rotateZ(10deg);">
+        <div class="object" style="--vertical: -100px;">
+            <div class="base" style="--color: var(--base); --side-color: var(--shadow); --width: 140px; left: 80px;"></div>
+
+            <div class="board water" style="--width: 300px; --height: 300px; --thick: 40px; --vertical: -20px;"></div>
+
+            <div id="rail-way" class="object">
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+                <div class="board tile"></div>
+
+                <div id="rail" class="object" style="width: inherit; height: inherit; --vertical: 5px;">
+                    <div class="board rail" style="left: 40px;"></div>
+                    <div class="board rail" style="left: 100px;"></div>
+                </div>
+            </div>
+
+            <div id="train" class="object">
+                <div class="object" style="--vertical: 20px;">
+                    <div class="board rough" style="--width: 120px; --height: 300px; --thick: 120px;"></div>
+                    <div class="hollow rough" style="--width: 120px; --height: 300px; --thick: 120px; --vertical: 120px;"></div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
